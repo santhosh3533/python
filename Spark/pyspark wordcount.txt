@@ -1,0 +1,35 @@
+Local, YARN Modes 
+a = sc.parallelize(range(1,100))
+a = sc.parallelize(range(1,100),6)
+Explore spark historyserver UI
+https://gl-lab.cloudenablers.com:50013/
+
+Basic wordcount
+text_file = sc.textFile("book.txt")
+counts = text_file.flatMap(lambda line: line.split(" ")).map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
+counts.saveAsTextFile("hdfs://...")
+
+>>> lines = sc.parallelize(['Its fun to have fun,','but you have to know how.']) 
+>>> wordcounts = lines.map( lambda x: x.replace(',',' ').replace('.',' ').replace('-',' ').lower()) \
+        .flatMap(lambda x: x.split()) \
+        .map(lambda x: (x, 1)) \
+        .reduceByKey(lambda x,y:x+y) \
+        .map(lambda x:(x[1],x[0])) \
+        .sortByKey(False)
+FILTER
+z = counts.filter(lambda x: (x[1]) > 5)
+z = counts.filter(lambda x: len(x[0]) > 5)
+counts = text_file.flatMap(lambda line: line.split(" ")).map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b).filter(lambda x: x[0] == "Buildi
+ng")
+
+SORT
+
+counts = text_file.flatMap(lambda line: line.split(" ")).map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b).sortBy(lambda a: a[1])
+counts = text_file.flatMap(lambda line: line.split(" ")).map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b).sortBy(lambda a: -a[1])
+
+
+
+
+
+
+
